@@ -1,6 +1,7 @@
 const student = require('express').Router();
 var bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 // Importing Student Model
 const { studentModel } = require('../models/studentModel');
@@ -44,8 +45,20 @@ student.post('/signup', jsonParser, (req, res) => {
     })
 });
 
-student.post('/login', (req, res) => {
+student.post('/login', passport.authenticate('local', {
+    successRedirect: '/one',
+    failureRedirect: '/fail',
+    failureFlash: true
+})
+);
 
+student.get('/fail', (req, res) => {
+    res.send('Failed to Login');
 });
+
+student.get('/dashboard', passport.authenticate('jwt', {session: false}), (req, res) => {
+    console.log(req.user);
+    res.send('Working');
+})
 
 module.exports = student;
