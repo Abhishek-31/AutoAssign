@@ -25,7 +25,9 @@ var app = express();
 
 // Templating Configurations
 app.set('view engine', 'hbs');
-app.use(express.static(__dirname + '/views'));
+// app.set('views', require('path').join(__dirname + '/views/misc'), require('path').join(__dirname + '/views/faculty'), require('path').join(__dirname + '/views/student'));
+
+app.use(express.static(__dirname + "/views"));
 
 // Passport Configurations
 app.use(session({

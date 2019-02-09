@@ -8,10 +8,13 @@ const { studentModel } = require('../models/studentModel');
 
 var jsonParser = bodyParser.json({ type: 'application/json' });
 
+student.get('/signup', (req, res) => {
+    res.render('student/signup-student');
+});
 
-student.get('/one', (req, res) => {
-    res.send('Routing working');
-})
+student.get('/login', (req, res) => {
+    res.render('student/login-student');
+});
 
 student.post('/signup', jsonParser, (req, res) => {
     /*
@@ -46,7 +49,7 @@ student.post('/signup', jsonParser, (req, res) => {
 });
 
 student.post('/login', passport.authenticate('local', {
-    successRedirect: '/one',
+    successRedirect: '/dashboard',
     failureRedirect: '/fail',
     failureFlash: true
 })
@@ -59,6 +62,10 @@ student.get('/fail', (req, res) => {
 student.get('/dashboard', passport.authenticate('jwt', {session: false}), (req, res) => {
     console.log(req.user);
     res.send('Working');
-})
+});
+
+student.get('/one', (req, res) => {
+    res.send('Routing working');
+});
 
 module.exports = student;
