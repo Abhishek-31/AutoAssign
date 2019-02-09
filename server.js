@@ -49,7 +49,7 @@ app.use('/student', studentRoutes);
 app.use('/', miscRoutes);
 
 app.get('/', (req, res) => {
-    res.render('home');
+    res.render('misc/home');
 });
 
 app.listen(3000, () => {

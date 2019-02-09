@@ -19,11 +19,12 @@
             <div class="beta-line"></div>
          </div>
          <div class="sign-up-form w-form">
-            <form name="wf-form-signup-form" data-name="Signup Form" class="form">
+            <form name="wf-form-signup-form" class="form" onSubmit="return formValidation();" method="POST" action="/faculty/signup">
                <input type="text" class="text-field w-input" autofocus="true" maxlength="256" name="name" placeholder="ENTER YOUR NAME" id="name" required/>
+               <input type="text" class="text-field w-input" autofocus="true" maxlength="256" name="dept" placeholder="ENTER YOUR DEPARTMENT" id="dept" required />
                <input type="email" class="text-field w-input" autofocus="true" maxlength="256" name="email"  placeholder="ENTER YOUR E-MAIL" id="email" required/>
                <input type="password" class="text-field w-input" autofocus="true" maxlength="256" name="password" placeholder="TYPE YOUR PASSWORD " id="password" required/>
-               <input type="password" class="text-field w-input" autofocus="true" maxlength="256" name="confrim-password" placeholder="CONFIRM YOUR PASSWORD " id="confirm-password" required/>
+               <input type="password" class="text-field w-input" autofocus="true" maxlength="256" name="confirm-password" placeholder="CONFIRM YOUR PASSWORD " id="confirm-password" required/>
                <input type="submit" value="Submit" data-wait="Please wait..." class="w-button"/>
             </form>
             <div class="success-message w-form-done">
@@ -36,6 +37,7 @@
       </div>
 
    </body>
+   <script src="/faculty/js/signup.js"></script>
 </html>
 
 

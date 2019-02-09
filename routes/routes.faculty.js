@@ -2,6 +2,7 @@ const faculty = require('express').Router();
 const mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 // Importing Faculty Model
 const {facultyModel} = require('../models/facultyModel');
@@ -26,6 +27,7 @@ faculty.post('/signup', jsonParser, (req, res) => {
         "password":
     }
     */
+   console.log('Inside Post Request');
    var newFac = new facultyModel(req.body);
    facultyModel.findOne({email: req.body.email})
     .then((user) => {
@@ -34,9 +36,9 @@ faculty.post('/signup', jsonParser, (req, res) => {
                 bcrypt.hash(req.body.password, salt, function (err, hash) {
                    newFac.password = hash;
                     newFac.save().then((user) => {
-                        res.send(user);
+                        res.redirect('dashboard');
                     }).catch((e) => {
-                        res.send(e);
+                        res.redirect('login');
                     });
                     console.log('Coming out of Hash Function: ', newFac);
                 });
@@ -48,9 +50,32 @@ faculty.post('/signup', jsonParser, (req, res) => {
      });
 });
 
+faculty.post('/login', passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/fail',
+    failureFlash: true
+})
+);
+
+faculty.get('/dashboard',  (req, res) => {
+    console.log(req.user);
+    res.send('Working');
+});
+
 faculty.get('/test', (req, res) => {
     res.send('Faculty Route Working!');
 });
+
+// var isLoggedIn = (req, res, next) => {
+//     passport.authenticate('jwt', { session: false }, (err, user, info) => {
+//         if (user) {
+//             req.user = user;
+//             next();
+//         } else if (info) {
+//             // next();                                                                 // TODO: Do something for displaying error messages
+//         }
+//     })
+// }
 
 
 module.exports = faculty;

@@ -29,8 +29,12 @@ passport.use(new LocalStrategy({
                                 console.log('Student Found');
                                 bcrypt.compare(password, user.password, function (err, res) {
                                     console.log('Password Matched');
-                                    const token = jwt.sign(user, 'jwt-secret');
-                                    return done(null, {token, user});
+                                    if(res) {    
+                                        const token = jwt.sign(user, 'jwt-secret');
+                                        return done(null, user);
+                                    } else {
+                                        return done(null, false, { message: 'Password does not match!' });
+                                    } 
                                 });
                             }
                         })
@@ -38,8 +42,12 @@ passport.use(new LocalStrategy({
                     console.log('Faculty Found');
                     bcrypt.compare(password, user.password, function (err, res) {
                         console.log('Password Matched');
-                        const token = jwt.sign(user, 'jwt-secret');
-                        return done(null, { token, user });
+                        if(res) {
+                            const token = jwt.sign(user, 'jwt-secret');
+                            return done(null, user);
+                        } else {
+                            return done(null, false, {message: 'Password does not match!'});
+                        }
                     });
                 }
 
@@ -52,7 +60,7 @@ passport.use(new JWTStrategy({
     secretOrKey: 'jwt-secret'
 },
     function (jwtPayload, done) {
-        console.log(jwtPayload);
+        console.log('Inside JWT Strategy', jwtPayload);
         done(null, jwtPayload);
     }
 ));

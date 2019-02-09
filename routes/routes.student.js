@@ -38,7 +38,7 @@ student.post('/signup', jsonParser, (req, res) => {
                     }).catch((e) => {
                         res.send(e);
                     });
-                    console.log('Coming out of Hash Function: ', newStud);
+                    // console.log('Coming out of Hash Function: ', newStud);
                 });
             });
         } else {
