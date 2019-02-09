@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Abhishek-31/AutoAssign/issues"
   },
-  "homepage": "https://github.com/Abhishek-31/AutoAssign#readme"
+  "homepage": "https://github.com/Abhishek-31/AutoAssign#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "hbs": "^4.0.1"
+  }
 }
