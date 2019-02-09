@@ -36,11 +36,10 @@ faculty.post('/signup', jsonParser, (req, res) => {
                     });
                     console.log('Coming out of Hash Function: ', newFac);
                 });
-            });
-            
+            });  
         } else {
             console.log(user);
-            res.send('User already exists!');
+            res.send('Faculty is already registered!');
         }
      });
 });
