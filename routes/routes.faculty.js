@@ -8,9 +8,13 @@ const {facultyModel} = require('../models/facultyModel');
 
 var jsonParser = bodyParser.json({ type: 'application/json' });
 
-faculty.get('/one', (req, res) => {
-    res.send('Routing working');
-})
+faculty.get('/signup', (req, res) => {
+    res.render('faculty/signup-faculty');
+});
+
+faculty.get('/login', (req, res) => {
+    res.render('faculty/login-faculty');
+});
 
 faculty.post('/signup', jsonParser, (req, res) => {
     /*
@@ -43,5 +47,10 @@ faculty.post('/signup', jsonParser, (req, res) => {
         }
      });
 });
+
+faculty.get('/test', (req, res) => {
+    res.send('Faculty Route Working!');
+});
+
 
 module.exports = faculty;
