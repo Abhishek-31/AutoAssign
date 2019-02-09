@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 
 var facultySchema = new mongoose.Schema({
     name: {
-        type: String
+        type: String    
     },
     email: {
-        type: String
+        type: String,
+        required: true,
+        unique: true
     },
     password: {
         type: String
@@ -36,6 +38,6 @@ var facultySchema = new mongoose.Schema({
     ]
 });
 
-var facultyModel = mongoose.model('facultyModel', facultySchema);
+var facultyModel = mongoose.model("facultyModel", facultySchema);
 
 module.exports = { facultyModel };
