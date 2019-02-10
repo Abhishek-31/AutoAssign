@@ -54,7 +54,10 @@ faculty.post('/signup', jsonParser, (req, res) => {
 //     console.log('Out of Passport Middleware - Login');
 //     res.status(200).send(req.session.passport.user);
 // });
-
+faculty.all('*',function(req, res, next){
+    console.log(req.headers);
+    next();
+})
 faculty.get('/dashboard', passport.authenticate('jwt'), (req, res) => {
     console.log(req.user);
     res.render('faculty/home-faculty');

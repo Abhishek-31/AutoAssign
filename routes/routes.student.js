@@ -64,7 +64,7 @@ student.get('/dashboard', (req, res) => {
 });
 
 student.get('/submit', (req, res) => {
-    res.render('student/submit-student')
+    res.render('student/pending-assignments')
 });
 
 student.get('/one', (req, res) => {
