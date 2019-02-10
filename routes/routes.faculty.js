@@ -76,6 +76,7 @@ faculty.post('/newassign', jsonParser, (req, res) => {
             if (!user) {
                 return res.send('Could not find user with given name')
             }
+            console.log('Added assignment');
             user.assignments.push(req.body);
             user.save().then((u) => res.send('Saved'));
         })

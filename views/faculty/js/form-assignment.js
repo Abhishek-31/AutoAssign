@@ -1,25 +1,27 @@
 //material contact form animation
 form();
-$('.contact-form').find('.form-control').each(function () {
-    var targetItem = $(this).parent();
-    if ($(this).val()) {
-        $(targetItem).find('label').css({
+jQuery('.contact-form').find('.form-control').each(function () {
+    var targetItem = jQuery(this).parent();
+    if (jQuery(this).val()) {
+        jQuery(targetItem).find('label').css({
             'top': '10px',
             'fontSize': '14px'
         });
     }
-})
-$('.contact-form').find('.form-control').focus(function () {
-    $(this).parent('.input-block').addClass('focus');
-    $(this).parent().find('label').animate({
+});
+
+jQuery('.contact-form').find('.form-control').focus(function () {
+    jQuery(this).parent('.input-block').addClass('focus');
+    jQuery(this).parent().find('label').animate({
         'top': '10px',
         'fontSize': '14px'
     }, 300);
-})
-$('.contact-form').find('.form-control').blur(function () {
-    if ($(this).val().length == 0) {
-        $(this).parent('.input-block').removeClass('focus');
-        $(this).parent().find('label').animate({
+});
+
+jQuery('.contact-form').find('.form-control').blur(function () {
+    if (jQuery(this).val().length == 0) {
+        jQuery(this).parent('.input-block').removeClass('focus');
+        jQuery(this).parent().find('label').animate({
             'top': '25px',
             'fontSize': '18px'
         }, 300);
@@ -27,18 +29,18 @@ $('.contact-form').find('.form-control').blur(function () {
 })
 
 function form() {
-    console.log($('#title').val())
-    $('#submit').on('click', (e) => {
+    console.log(jQuery('#title').val())
+    jQuery('#submit').on('click', (e) => {
         var assignment = {
-            title: $('#title').val(),
-            desc: $('#prob-desc').val(),
-            si: $('#sample-input').val(),
-            so: $('#sample-output').val(),
-            date: $('#date').val()
+            title: jQuery('#title').val(),
+            desc: jQuery('#prob-desc').val(),
+            si: jQuery('#sample-input').val(),
+            so: jQuery('#sample-output').val(),
+            date: jQuery('#date').val()
         }
         e.preventDefault();
         console.log(assignment);
-        $.post('/faculty/newassign', assignment, (response) => {
+        jQuery.post('/faculty/newassign', assignment, (response) => {
             alert(response);
             if(response === 'Saved') {
                 window.location.href = '/faculty/dashboard';
