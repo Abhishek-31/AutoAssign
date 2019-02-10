@@ -27,7 +27,7 @@ student.post('/signup', jsonParser, (req, res) => {
         "password":
     }
     */
-   var newStud = new studentModel(req.body);
+   var newStud = new studentModel({...req.body, mobile: 12345});
    studentModel.findOne({rollNumber: req.body.rollNumber})
     .then((user) => {
         if(!user) {
@@ -35,9 +35,9 @@ student.post('/signup', jsonParser, (req, res) => {
                 bcrypt.hash(req.body.password, salt, function (err, hash) {
                     newStud.password = hash;
                     newStud.save().then((user) => {
-                        res.send(user);
+                        res.redirect('login');
                     }).catch((e) => {
-                        res.send(e);
+                        res.redirect('signup');
                     });
                     // console.log('Coming out of Hash Function: ', newStud);
                 });
@@ -58,11 +58,13 @@ student.get('/fail', (req, res) => {
 });
 
 student.get('/dashboard', studentLoggedIn, (req, res) => {
-    res.render('student/home-student');
+    console.log('Student Dashboard: ', req.user[0]);
+    res.render('student/home-student', {user: req.user[0]});
 });
 
 student.get('/submit', studentLoggedIn, (req, res) => {
-    res.render('student/pending-assignments')
+    console.log('Student Submission: ', req.user[0]);
+    res.render('student/pending-assignments');
 });
 
 student.get('/one', (req, res) => {

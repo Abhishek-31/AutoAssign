@@ -8,12 +8,12 @@
 
 <body>
 
-    <div style="border:10px solid;top:10rem;left:40rem; height:80rem;background-image: linear-gradient(to bottom right,#CC95C0, #7AA1D2);">
+    <div style="border:10px solid;top:10rem;left:40rem; height:80rem;background-image: url(/faculty/css/white-waves.png);">
         <button value="log out" style="position:absolute;top:20px;padding:10px;right:20px;width:80px; background-color:moccasin;"
             id="LogOut">Log Out</button>
 <div class="dropdown" >
 
-    <button class="dropbtn"  style="position:relative;top:30px; left:40px;">Select Year:{{user.name}}</button>
+    <button class="dropbtn"  style="position:relative;top:30px; left:40px;">Select Year:</button>
     <div class="dropdown-content">
         <a href="#">First Year</a>
         <a href="#">Second Year</a>
@@ -22,12 +22,16 @@
         <a href="#">Fifth Year(Dual Degree)</a>
     </div>
 </div>
-
-<div style="position:absolute;top:200px;left:40px;background:20px solid black;" id="masterDiv">
+<div style="position:absolute; top:150px; left:40px; background:20px solid black;" id="newassign">
+    <div class="cards" style="padding-top: 50px; background: rgb(66, 168, 74)"><a href="/faculty/newassignment" style="margin-top: 70px; font-size: 21px;">Add more..</a>
+        <div id="New assign"></div>
+    </div>
+</div>
+<div style="position:absolute;top:450px;left:40px;background:20px solid black;" id="masterDiv">
+    
 <div class="cards"><a href ="">Assignment one</a><br><br><br>Branch:<div style ="inline" id="First assign"></div></div>
 <div class="cards"><a href="">Assignment second</a><br><br><br>Branch:<div style="inline" id="Second assign"></div></div>
 <div class="cards"><a href="">Assignment three</a><br><br><br>Branch:<div style="inline" id="Third assign"></div></div>
-<div class="cards"><a href="/faculty/newassignment">Add more..</a><div id="New assign"></div></div>
 </div>
 </div>
 <div display="none" id="assignments">{{user.assignments}}</div>

@@ -2,6 +2,7 @@
 
 <head>
     <meta charset="utf-8">
+    <title>{{user.name}}'s Dashboard</title>
 </head>
 <style>
 .cards{
@@ -23,6 +24,8 @@ border-radius: 40px;
     <div style="border:10px solid;top:10rem;left:40rem; height:80rem;background-image: linear-gradient(to bottom right,#CC95C0, #7AA1D2);">
         <button value="log out" style="position:absolute;top:20px;padding:10px;right:20px;width:80px; background-color:moccasin;" id="LogOut">Log Out</button>
 
+    <h2>{{user.name}}</h2>
+
         <div style="position:absolute;top:100px;left:40px;background:20px solid black;" id="master div">
 <h1 style="position:relative;text-align: center;">Assignments Submitted </h1>
             <div class="cards"><a href="">Assignment one</a><br><br><br>Date:<div style="inline" id="First Submitted assign"></div>
@@ -31,18 +34,15 @@ border-radius: 40px;
             </div>
             <div class="cards"><a href="">Assignment three</a><br><br><br>Date:<div style="inline" id="Third Submitted assign"></div>
             </div>
-            <div class="cards"><a href="faculty/addassign-faculty'">Add more..</a>
-                <div id="New assign"></div>
-            </div>
         </div>
 
         <div style="position:absolute;top:650px;left:40px;background:20px solid black;" id="master div">
             <h1 style="position:relative;text-align: center;">Assignments Pending </h1>
-            <div class="cards"><a href="">Assignment one</a><br><br><br>Date:<div style="inline" id="First Pending assign"></div>
+            <div class="cards"><a href="/student/submit">Assignment one</a><br><br><br>Date:<div style="inline" id="First Pending assign"></div>
             </div>
-            <div class="cards"><a href="">Assignment second</a><br><br><br>Date:<div style="inline" id="Second Pending assign"></div>
+            <div class="cards"><a href="/student/submit">Assignment second</a><br><br><br>Date:<div style="inline" id="Second Pending assign"></div>
             </div>
-            <div class="cards"><a href="">Assignment three</a><br><br><br>Date:<div style="inline" id="Third Pending assign"></div>
+            <div class="cards"><a href="/student/submit">Assignment three</a><br><br><br>Date:<div style="inline" id="Third Pending assign"></div>
             </div>
             <div class="cards"><a href="/faculty/newassignment">Add more..</a>
                 <div id="New assign"></div>
