@@ -6,6 +6,7 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 // Importing Faculty Model
 const { facultyModel } = require('../models/facultyModel');
+const {TeacherLoggedIn, authenticate} = require('./../config/isLoggedIn');
 
 var jsonParser = bodyParser.json({ type: 'application/json' });
 
@@ -54,12 +55,9 @@ faculty.post('/signup', jsonParser, (req, res) => {
 //     console.log('Out of Passport Middleware - Login');
 //     res.status(200).send(req.session.passport.user);
 // });
-faculty.all('*',function(req, res, next){
-    console.log(req.headers);
-    next();
-})
-faculty.get('/dashboard', passport.authenticate('jwt'), (req, res) => {
-    console.log(req.user);
+
+faculty.get('/dashboard', TeacherLoggedIn, (req, res) => {
+    console.log('Request.User: ', req.user);
     res.render('faculty/home-faculty', {user: req.user});
 });
 
@@ -83,33 +81,10 @@ faculty.get('/test', (req, res) => {
     res.send('Faculty Route Working!');
 });
 
+faculty.post('/login', authenticate, (req, res) => {
+    res.cookie('x-auth', req.token, { maxAge: 900000, httpOnly: true });
+    res.send('one');
+});
+
 module.exports = faculty;
 
-
-faculty.post('/login', function (req, res, next) {
-    passport.authenticate('local', { session: false }, (err, user, info) => {
-        console.log('Inside Middleware');
-        if (err || !user) {
-            return res.status(400).json({
-                message: 'Something is not right',
-                user: user,
-                err: err
-            });
-        }
-        req.login(user, { session: false }, (err) => {
-            if (err) {
-                res.send(err);
-            }
-            // generate a signed son web token with the contents of user object and return it in the response
-            console.log(user);
-            const token = jwt.sign({
-                _id: user._id,
-                email: user.email
-            }, 'jwt-secret');
-            req.token = token;
-            console.log('Token Formation');
-            // return res.json({ user, token });
-            return res.send(token);
-        });
-    })(req, res);
-});

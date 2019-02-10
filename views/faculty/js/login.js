@@ -21,27 +21,29 @@ submit.addEventListener('click', (e) => {
                 'Authorization': 'Bearer ' + response
             }
         }
-        //window.location.href = '/faculty/dashboard';
+        if(response === 'one') {
+            window.location.href = '/faculty/dashboard';
+        }
         // jQuery.get('/faculty/dashboard', obj);
         // fetch('http://localhost:3000/faculty/dashboard', obj)
         //     .then((data) => {
         //         console.log(data);
         //     });
-        $.ajax({
-            url: '/faculty/dashboard',
-            type: 'get',
-            contentType: "text/html",
-            ...obj,
-            success: function (data, status) {
-                console.log("Success!!");
-                console.log(data);
-                console.log(status);
+        // $.ajax({
+        //     url: '/faculty/dashboard',
+        //     type: 'get',
+        //     contentType: "text/html",
+        //     ...obj,
+        //     success: function (data, status) {
+        //         console.log("Success!!");
+        //         console.log(data);
+        //         console.log(status);
                 
-            },
-            error: function (xhr, desc, err) {
-                console.log(xhr);
-                console.log("Desc: " + desc + "\nErr:" + err);
-            }
-        });
+        //     },
+        //     error: function (xhr, desc, err) {
+        //         console.log(xhr);
+        //         console.log("Desc: " + desc + "\nErr:" + err);
+        //     }
+        // });
     });
 })
