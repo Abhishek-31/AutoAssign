@@ -5,6 +5,7 @@ const passport = require('passport');
 
 // Importing Student Model
 const { studentModel } = require('../models/studentModel');
+const {authenticate, studentLoggedIn} = require('./../config/isLoggedIn');
 
 var jsonParser = bodyParser.json({ type: 'application/json' });
 
@@ -48,22 +49,19 @@ student.post('/signup', jsonParser, (req, res) => {
     })
 });
 
-student.post('/login', passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/fail',
-    failureFlash: true
-})
-);
+student.post('/login', authenticate, (req, res) => {
+    res.send('one');
+});
 
 student.get('/fail', (req, res) => {
     res.send('Failed to Login');
 });
 
-student.get('/dashboard', passport.authenticate('jwt'), (req, res) => {
+student.get('/dashboard', studentLoggedIn, (req, res) => {
     res.render('student/home-student');
 });
 
-student.get('/submit', passport.authenticate('jwt'), (req, res) => {
+student.get('/submit', studentLoggedIn, (req, res) => {
     res.render('student/pending-assignments')
 });
 

@@ -2,7 +2,8 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="/views/faculty/css/style2.css"/>
+    <link rel="stylesheet" type="text/css" href="/faculty/css/style2.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -12,7 +13,7 @@
             id="LogOut">Log Out</button>
 <div class="dropdown" >
 
-    <button class="dropbtn"  style="position:relative;top:30px; left:40px;">Select Year</button>
+    <button class="dropbtn"  style="position:relative;top:30px; left:40px;">Select Year:{{user.name}}</button>
     <div class="dropdown-content">
         <a href="#">First Year</a>
         <a href="#">Second Year</a>
@@ -22,15 +23,15 @@
     </div>
 </div>
 
-<div style="position:absolute;top:200px;left:40px;background:20px solid black;" id="master div">
+<div style="position:absolute;top:200px;left:40px;background:20px solid black;" id="masterDiv">
 <div class="cards"><a href ="">Assignment one</a><br><br><br>Branch:<div style ="inline" id="First assign"></div></div>
 <div class="cards"><a href="">Assignment second</a><br><br><br>Branch:<div style="inline" id="Second assign"></div></div>
 <div class="cards"><a href="">Assignment three</a><br><br><br>Branch:<div style="inline" id="Third assign"></div></div>
 <div class="cards"><a href="">Add more..</a><div id="New assign"></div></div>
 </div>
 </div>
-
-
+<div display="none" id="assignments">{{user.assignments}}</div>
 </body>
-
+<script src="/faculty/js/home.js"></script>
+</div>`
 </html>

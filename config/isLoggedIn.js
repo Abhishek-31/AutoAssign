@@ -63,4 +63,14 @@ var authenticate = (req, res, next) => {
     }
 }
 
-module.exports = { TeacherLoggedIn, authenticate }
+var studentLoggedIn = (req, res, next) => {
+    console.log('Inside LoggedIn', req.cookies);
+
+    studentModel.find({ email: 'someshit@gmail.com' })
+        .then((user) => {
+            req.user = user;
+            next();
+        });
+}
+
+module.exports = { TeacherLoggedIn, authenticate, studentLoggedIn }

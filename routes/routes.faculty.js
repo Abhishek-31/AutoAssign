@@ -57,12 +57,16 @@ faculty.post('/signup', jsonParser, (req, res) => {
 // });
 
 faculty.get('/dashboard', TeacherLoggedIn, (req, res) => {
-    console.log('Request.User: ', req.user);
-    res.render('faculty/home-faculty', {user: req.user});
+    console.log('Request.User: ', req.user[0]);
+    res.render('faculty/home-faculty', {user: req.user[0]});
 });
 
-faculty.get('/newassignment', (req, res) => {
-    res.render('faculty/addassign-faculty');
+faculty.get('/newassignment', TeacherLoggedIn, (req, res) => {
+    res.render('faculty/addassign-faculty', {user: req.user});
+});
+
+faculty.get('/fetchassignments', TeacherLoggedIn, (req, res) => {
+    res.send(req.user.assignments);
 });
 
 faculty.post('/newassign', jsonParser, (req, res) => {
