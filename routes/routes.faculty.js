@@ -66,7 +66,8 @@ faculty.get('/newassignment', TeacherLoggedIn, (req, res) => {
 });
 
 faculty.get('/fetchassignments', TeacherLoggedIn, (req, res) => {
-    res.send(req.user.assignments);
+    console.log('Request User Assignments:', req.user[0].assignments);
+    res.send(req.user[0].assignments);
 });
 
 faculty.post('/newassign', jsonParser, (req, res) => {
