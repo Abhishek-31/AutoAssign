@@ -34,7 +34,8 @@ function form() {
             desc: $('#prob-desc').val(),
             si: $('#sample-input').val(),
             so: $('#sample-output').val(),
-            date: $('#date').val()
+            date: $('#date').val(),
+            branch: $('select.branch').val()
         }
         e.preventDefault();
         console.log(assignment);
