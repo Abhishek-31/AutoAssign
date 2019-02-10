@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
 var session = require('express-session');
+const flash = require('connect-flash');
 
 // importing Routes
 var studentRoutes = require('./routes/routes.student');
@@ -16,7 +17,7 @@ var {StudentModel} = require('./models/studentModel');
 var {FacultyModel} = require('./models/facultyModel');
 
 // importing passport
-const passportSetup = require('./config/passport-setup');
+require('./config/passport-setup');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/AutoAssign', { useNewUrlParser: true, useCreateIndex: true })
@@ -47,6 +48,8 @@ app.use(bodyParser.json());
 app.use('/faculty', facultyRoutes);
 app.use('/student', studentRoutes);
 app.use('/', miscRoutes);
+
+app.use(flash());
 
 app.get('/', (req, res) => {
     res.render('misc/home');

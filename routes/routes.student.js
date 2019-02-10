@@ -59,9 +59,12 @@ student.get('/fail', (req, res) => {
     res.send('Failed to Login');
 });
 
-student.get('/dashboard', passport.authenticate('jwt', {session: false}), (req, res) => {
-    console.log(req.user);
-    res.send('Working');
+student.get('/dashboard', (req, res) => {
+    res.render('student/home-student');
+});
+
+student.get('/submit', (req, res) => {
+    res.render('student/submit-student')
 });
 
 student.get('/one', (req, res) => {
