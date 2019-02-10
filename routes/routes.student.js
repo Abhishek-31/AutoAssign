@@ -49,7 +49,7 @@ student.post('/signup', jsonParser, (req, res) => {
     })
 });
 
-student.post('/login', authenticate, (req, res) => {
+student.post('/login', (req, res) => {
     res.send('one');
 });
 

@@ -66,7 +66,7 @@ var authenticate = (req, res, next) => {
 var studentLoggedIn = (req, res, next) => {
     console.log('Inside LoggedIn', req.cookies);
 
-    studentModel.find({ email: 'utkarshsingh369@gmail.com' })
+    studentModel.find({ email: 'check@gmail.com' })
         .then((user) => {
             req.user = user;
             next();
