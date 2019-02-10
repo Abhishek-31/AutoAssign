@@ -1,4 +1,5 @@
 //material contact form animation
+form();
 $('.contact-form').find('.form-control').each(function () {
     var targetItem = $(this).parent();
     if ($(this).val()) {
@@ -24,3 +25,24 @@ $('.contact-form').find('.form-control').blur(function () {
         }, 300);
     }
 })
+
+function form() {
+    console.log($('#title').val())
+    $('#submit').on('click', (e) => {
+        var assignment = {
+            title: $('#title').val(),
+            desc: $('#prob-desc').val(),
+            si: $('#sample-input').val(),
+            so: $('#sample-output').val(),
+            date: $('#date').val()
+        }
+        e.preventDefault();
+        console.log(assignment);
+        $.post('/faculty/newassign', assignment, (response) => {
+            alert(response);
+            if(response === 'Saved') {
+                window.location.href = '/faculty/dashboard';
+            }
+        })
+    });
+}

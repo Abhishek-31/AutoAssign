@@ -15,11 +15,13 @@ passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
 },
-    function (username, password, done, req) {
+    function (username, password, done) {
+        console.log('Entered in Local Strategy');
         console.log(username, password);
+        // return done(null, {username: "utkarsh", password: "12345"}, {message: 'Works!'});
         facultyModel.findOne({email: username})
             .then((user) => {
-                if(!user) {                                     // No Faculty with username.Time to check if Student exists 
+                if(!user) {                                     // No Faculty with username found. Time to check if Student exists 
                     studentModel.findOne({email: username})
                         .then((user) => {
                             if(!user) {
@@ -30,8 +32,8 @@ passport.use(new LocalStrategy({
                                 bcrypt.compare(password, user.password, function (err, res) {
                                     console.log('Password Matched');
                                     if(res) {    
-                                        const token = jwt.sign(user, 'jwt-secret');
-                                        return done(null, user);
+                                        const token = jwt.sign(user.toJSON(), 'jwt-secret');
+                                        return done(null, token);
                                     } else {
                                         return done(null, false, { message: 'Password does not match!' });
                                     } 
@@ -41,10 +43,10 @@ passport.use(new LocalStrategy({
                 } else {
                     console.log('Faculty Found');
                     bcrypt.compare(password, user.password, function (err, res) {
-                        console.log('Password Matched');
                         if(res) {
-                            const token = jwt.sign(user, 'jwt-secret');
-                            return done(null, user);
+                            console.log('Password Matched');
+                            const token = jwt.sign(user.toJSON(), 'jwt-secret');
+                            return done(null, token);
                         } else {
                             return done(null, false, {message: 'Password does not match!'});
                         }
@@ -56,12 +58,20 @@ passport.use(new LocalStrategy({
 ));
 
 passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    // jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('jwt'),
     secretOrKey: 'jwt-secret'
 },
-    function (jwtPayload, done) {
-        console.log('Inside JWT Strategy', jwtPayload);
-        done(null, jwtPayload);
+    function (jwtPayload, cb) {
+        console.log('Inside JWT Strategy');
+        //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
+        return facultyModel.findOneById(jwtPayload.id)
+            .then(user => {
+                return cb(null, user);
+            })
+            .catch(err => {
+                return cb(err);
+            });
     }
 ));
 

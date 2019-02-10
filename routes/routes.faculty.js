@@ -27,7 +27,7 @@ faculty.post('/signup', jsonParser, (req, res) => {
         "password":
     }
     */
-   console.log('Inside Post Request');
+   console.log('Inside Sign Up Post Request');
    var newFac = new facultyModel(req.body);
    facultyModel.findOne({email: req.body.email})
     .then((user) => {
@@ -36,9 +36,9 @@ faculty.post('/signup', jsonParser, (req, res) => {
                 bcrypt.hash(req.body.password, salt, function (err, hash) {
                    newFac.password = hash;
                     newFac.save().then((user) => {
-                        res.redirect('dashboard');
-                    }).catch((e) => {
                         res.redirect('login');
+                    }).catch((e) => {
+                        res.redirect('signup');
                     });
                     console.log('Coming out of Hash Function: ', newFac);
                 });
@@ -50,32 +50,57 @@ faculty.post('/signup', jsonParser, (req, res) => {
      });
 });
 
-faculty.post('/login', passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/fail',
-    failureFlash: true
-})
-);
+faculty.post('/login', passport.authenticate('local', {failureRedirect: '/login'}), (req, res) => {
+    console.log('Out of Passport Middleware - Login');
+    res.status(200).send(req.session.passport.user);
+});
 
-faculty.get('/dashboard',  (req, res) => {
+faculty.get('/dashboard', (req, res) => {
     console.log(req.user);
-    res.send('Working');
+    res.render('faculty/home-faculty');
+});
+
+faculty.get('/newassignment', (req, res) => {
+    res.render('faculty/addassign-faculty');
+});
+
+faculty.post('/newassign', jsonParser, (req, res) => {
+    facultyModel.findOne({email: 'utkarshsingh369@gmail.com'})
+                .then((user) => {
+                    if(!user) {
+                        return res.send('Could not find user with given name')
+                    }
+                    user.assignments.push(req.body);
+                    user.save().then((u) => res.send('Saved'));
+                })
+    res.send('Some error occured');
 });
 
 faculty.get('/test', (req, res) => {
     res.send('Faculty Route Working!');
 });
 
-// var isLoggedIn = (req, res, next) => {
-//     passport.authenticate('jwt', { session: false }, (err, user, info) => {
-//         if (user) {
-//             req.user = user;
-//             next();
-//         } else if (info) {
-//             // next();                                                                 // TODO: Do something for displaying error messages
-//         }
-//     })
-// }
-
-
 module.exports = faculty;
+
+
+// faculty.post('/login', function (req, res, next) {
+//     passport.authenticate('local', { session: false,failureRedirect: '/fail' }, (err, user, info) => {
+//         console.log('Inside Middleware');
+//         if (err || !user) {
+//             return res.status(400).json({
+//                 message: 'Something is not right',
+//                 user: user,
+//                 err: err
+//             });
+//         }
+//         req.login(user, { session: false }, (err) => {
+//             if (err) {
+//                 res.send(err);
+//             }
+//             // generate a signed son web token with the contents of user object and return it in the response
+//             const token = jwt.sign(user, 'your_jwt_secret');
+//             console.log('Token Formation');
+//             return res.json({ user, token });
+//         });
+//     })(req, res);
+// });
