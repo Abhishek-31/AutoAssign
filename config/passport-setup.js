@@ -53,12 +53,13 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    // jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('jwt'),
     secretOrKey: 'jwt-secret'
 },
     function (jwtPayload, cb) {
         console.log('Inside JWT Strategy');
         //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
-        return facultyModel.findOneById(jwtPayload.id)
+        return facultyModel.findOne({email: jwtPayload.email})
             .then(user => {
                 return cb(null, user);
             })

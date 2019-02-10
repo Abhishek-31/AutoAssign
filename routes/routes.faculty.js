@@ -106,7 +106,7 @@ faculty.post('/login', function (req, res, next) {
             req.token = token;
             console.log('Token Formation');
             // return res.json({ user, token });
-            return res.redirect('dashboard');
+            return res.send(token);
         });
     })(req, res);
 });
