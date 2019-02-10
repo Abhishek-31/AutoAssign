@@ -80,7 +80,8 @@ faculty.post('/newassign', jsonParser, (req, res) => {
             user.assignments.push(req.body);
             user.save().then((u) => res.send('Saved'));
         })
-    res.send('Some error occured');
+        .catch((e) => res.send('Some error occured'))
+    
 });
 
 faculty.get('/test', (req, res) => {

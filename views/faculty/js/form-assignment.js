@@ -50,14 +50,14 @@ function form() {
     });
 }
 
-jQuery('#submit').on('click', () => {
-    var assignment = {
-        title: jQuery('#title').val(),
-        description: jQuery('#prob-desc').val(),
-        sampleInput: jQuery('#sample-input').val(),
-        sampleOutput: jQuery('#sample-output').val()
-    }
-    jQuery.post('/newassign', assignment, (response) => {
-        console.log(response);
-    });
-});
+// jQuery('#submit').on('click', () => {
+//     var assignment = {
+//         title: jQuery('#title').val(),
+//         description: jQuery('#prob-desc').val(),
+//         sampleInput: jQuery('#sample-input').val(),
+//         sampleOutput: jQuery('#sample-output').val()
+//     }
+//     jQuery.post('/newassign', assignment, (response) => {
+//         console.log(response);
+//     });
+// });
