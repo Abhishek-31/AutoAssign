@@ -60,7 +60,7 @@ faculty.all('*',function(req, res, next){
 })
 faculty.get('/dashboard', passport.authenticate('jwt'), (req, res) => {
     console.log(req.user);
-    res.render('faculty/home-faculty');
+    res.render('faculty/home-faculty', {user: req.user});
 });
 
 faculty.get('/newassignment', (req, res) => {

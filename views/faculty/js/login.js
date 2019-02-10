@@ -36,8 +36,7 @@ submit.addEventListener('click', (e) => {
                 console.log("Success!!");
                 console.log(data);
                 console.log(status);
-                document.write(data);
-                // window.location.href = '/faculty/dashboard';
+                
             },
             error: function (xhr, desc, err) {
                 console.log(xhr);
