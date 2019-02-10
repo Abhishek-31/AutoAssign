@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-
+const jwt = require('jsonwebtoken');
 // Importing Faculty Model
-const {facultyModel} = require('../models/facultyModel');
+const { facultyModel } = require('../models/facultyModel');
 
 var jsonParser = bodyParser.json({ type: 'application/json' });
 
@@ -27,37 +27,40 @@ faculty.post('/signup', jsonParser, (req, res) => {
         "password":
     }
     */
-   console.log('Inside Sign Up Post Request');
-   var newFac = new facultyModel(req.body);
-   facultyModel.findOne({email: req.body.email})
-    .then((user) => {
-        if(!user) {
-            bcrypt.genSalt(10, function (err, salt) {
-                bcrypt.hash(req.body.password, salt, function (err, hash) {
-                   newFac.password = hash;
-                    newFac.save().then((user) => {
-                        res.redirect('login');
-                    }).catch((e) => {
-                        res.redirect('signup');
+    console.log('Inside Sign Up Post Request');
+    var newFac = new facultyModel(req.body);
+    facultyModel.findOne({ email: req.body.email })
+        .then((user) => {
+            if (!user) {
+                bcrypt.genSalt(10, function (err, salt) {
+                    bcrypt.hash(req.body.password, salt, function (err, hash) {
+                        newFac.password = hash;
+                        newFac.save().then((user) => {
+                            res.redirect('login');
+                        }).catch((e) => {
+                            res.redirect('signup');
+                        });
+                        console.log('Coming out of Hash Function: ', newFac);
                     });
-                    console.log('Coming out of Hash Function: ', newFac);
                 });
-            });  
-        } else {
-            console.log(user);
-            res.send('Faculty is already registered!');
-        }
-     });
+            } else {
+                console.log(user);
+                res.send('Faculty is already registered!');
+            }
+        });
 });
 
-faculty.post('/login', passport.authenticate('local', {failureRedirect: '/login'}), (req, res) => {
-    console.log('Out of Passport Middleware - Login');
-    res.status(200).send(req.session.passport.user);
-});
-
-faculty.get('/dashboard', (req, res) => {
+// faculty.post('/login', passport.authenticate('local'), (req, res) => {
+//     console.log('Out of Passport Middleware - Login');
+//     res.status(200).send(req.session.passport.user);
+// });
+faculty.all('*',function(req, res, next){
+    console.log(req.headers);
+    next();
+})
+faculty.get('/dashboard', passport.authenticate('jwt'), (req, res) => {
     console.log(req.user);
-    res.render('faculty/home-faculty');
+    res.render('faculty/home-faculty', {user: req.user});
 });
 
 faculty.get('/newassignment', (req, res) => {
@@ -65,14 +68,14 @@ faculty.get('/newassignment', (req, res) => {
 });
 
 faculty.post('/newassign', jsonParser, (req, res) => {
-    facultyModel.findOne({email: 'utkarshsingh369@gmail.com'})
-                .then((user) => {
-                    if(!user) {
-                        return res.send('Could not find user with given name')
-                    }
-                    user.assignments.push(req.body);
-                    user.save().then((u) => res.send('Saved'));
-                })
+    facultyModel.findOne({ email: 'utkarshsingh369@gmail.com' })
+        .then((user) => {
+            if (!user) {
+                return res.send('Could not find user with given name')
+            }
+            user.assignments.push(req.body);
+            user.save().then((u) => res.send('Saved'));
+        })
     res.send('Some error occured');
 });
 
@@ -83,24 +86,30 @@ faculty.get('/test', (req, res) => {
 module.exports = faculty;
 
 
-// faculty.post('/login', function (req, res, next) {
-//     passport.authenticate('local', { session: false,failureRedirect: '/fail' }, (err, user, info) => {
-//         console.log('Inside Middleware');
-//         if (err || !user) {
-//             return res.status(400).json({
-//                 message: 'Something is not right',
-//                 user: user,
-//                 err: err
-//             });
-//         }
-//         req.login(user, { session: false }, (err) => {
-//             if (err) {
-//                 res.send(err);
-//             }
-//             // generate a signed son web token with the contents of user object and return it in the response
-//             const token = jwt.sign(user, 'your_jwt_secret');
-//             console.log('Token Formation');
-//             return res.json({ user, token });
-//         });
-//     })(req, res);
-// });
+faculty.post('/login', function (req, res, next) {
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+        console.log('Inside Middleware');
+        if (err || !user) {
+            return res.status(400).json({
+                message: 'Something is not right',
+                user: user,
+                err: err
+            });
+        }
+        req.login(user, { session: false }, (err) => {
+            if (err) {
+                res.send(err);
+            }
+            // generate a signed son web token with the contents of user object and return it in the response
+            console.log(user);
+            const token = jwt.sign({
+                _id: user._id,
+                email: user.email
+            }, 'jwt-secret');
+            req.token = token;
+            console.log('Token Formation');
+            // return res.json({ user, token });
+            return res.send(token);
+        });
+    })(req, res);
+});
